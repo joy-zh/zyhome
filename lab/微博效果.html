@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		html body ul li{margin:0;padding:0;}
+		.content{width:400px;height:400px;border:1px solid #000;margin:10px auto;padding:0;list-style: none}
+		.content li{padding: 10px;border-bottom:1px dashed #ccc;filter:alpha(opacity:0);opacity:0;width:380px;}
+
+	</style>
+	<script type="text/javascript" src="../js/move.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oUl = document.getElementById("content");
+			var aLi = oUl.getElementsByTagName("li");
+			var oText = document.getElementById("txt1");
+			var oBtn = document.getElementById("btn1");
+
+			oBtn.onclick = function(){
+				var oLi = document.createElement("li");
+				oLi.innerHTML = oText.value;
+
+				if(aLi.length>0)
+				{
+					oUl.insertBefore(oLi,oUl.children[0]);
+				}
+				else
+				{
+					oUl.apeend(oLi);
+				}
+				var iHeight = oLi.offsetHeight;
+				oLi.style.height = "0";
+				startMove(oLi,{height:iHeight},4,function(){
+					startMove(oLi,{opacity:100},10,function(){});
+				});
+				
+
+			}
+		}
+	</script>
+</head>
+<body>
+		<textarea rows="4" cols="40" id="txt1"></textarea>
+		<input type="button" id="btn1" value="按钮" />
+		<ul class="content" id="content">
+			<li>啊啊啊啊啊啊啊啊啊啊啊啊啊啊</li>
+		</ul>
+		
+</body>
+</html>

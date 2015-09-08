@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		html body ul li{margin:0;padding:0;}
+		
+		/**.div2{width:250px;height:250px;border: 10px solid #f00;background:url('http://img.d1cm.com/pro/1_1000/90X60/13431_201411101005403597.jpg') 50% 50%/50px no-repeat ; border-radius: 125px}
+
+		ul{text-align:center;height:30px;line-height:30px;}
+		li,a{display:inline-block;height:100%;width:80px;_zoom:1;*display:inline;}*/
+		
+		.is{position: relative;width:495px;height:300px;overflow: hidden;margin:0;padding:0;}
+		.is #img_ul{position:absolute;top:0;left:0;list-style:none;margin:0;padding:0;}
+		.is ul li{display:inline-block;width:495px;height:300px;margin:0;padding:0;}
+
+		.is img{width:495px;height:300px;vertical-align:bottom; display:block}
+		.is .title{position:absolute;bottom: 0px;width:100%;line-height: 45px;background-color: #000;opacity: 0.7;margin:0;}
+		.is .title a{margin-left: 20px;color:#fff;display:inline;width:100%;text-decoration: none;font-family: "微软雅黑"}
+		.is .controls{position:absolute;bottom:3px;right: 10px;line-height: 10px;}
+		.is .controls span{display:inline-block;border-radius: 5px;margin:auto 1px;height:10px;width:10px;background-color: #666;}
+		.is .controls span.cur{background-color: #fff}
+
+		.clear{clear:both;line-height:0px;}
+
+	</style>
+	<script type="text/javascript" src="../js/move.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oBig = document.getElementById("img_ul");
+			var oControl = document.getElementById("controls");
+			var aSpan = oControl.getElementsByTagName("span");
+
+			var now = 0;
+			for(var i = 0;i<aSpan.length;i++)
+			{
+				aSpan[i].index = i;
+				aSpan[i].onclick = function(){
+					now = this.index;
+					tab();
+				}
+			}
+
+			function tab(obj){
+
+				for(var j=0;j<aSpan.length;j++)
+				{
+					aSpan[j].className = "";
+				}
+				aSpan[now].className = "cur";
+				startMove(oBig,{top:-300*now},10);
+				
+			}
+
+			function next()
+			{
+				now++;
+				if(now == aSpan.length)
+				{
+					now = 0;
+				}
+				tab();
+			}
+
+			var timer = setInterval(next,2000);
+
+			oBig.onmouseover = function(){
+				clearInterval(timer);
+			}
+			oBig.onmouseout = function(){
+				timer = setInterval(next,2000);
+			}
+		}
+		
+	</script>
+</head>
+<body>
+
+		<div class="is" id="is";>
+			<div id="img_ul">
+				<img src="http://img1.gtimg.com/news/pics/hv1/6/128/1855/120654021.jpg"></img>
+				<img src="http://h.hiphotos.baidu.com/image/pic/item/cf1b9d16fdfaaf51dc9cebec8e5494eef01f7a61.jpg"></img>
+				<img src="http://news.bandao.cn/news_imgh/201111/48/1271203630221122212.jpg"></img>
+				<img src="http://pic.58pic.com/58pic/10/94/53/26W58PICj6f.jpg"></img>
+				<img src="http://www.people.com.cn/mediafile/pic/20150624/40/6077865649819751056.jpg"></img>
+			</div>
+
+			<p class="title"><a href="">航母首次大修</a></p>
+			<p class="controls" id="controls">
+				<span class="cur"></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</p>
+		</div>
+	
+</body>
+</html>

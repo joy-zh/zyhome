@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8"/>
+    <title>弹窗效果样式</title>
+    <script type="text/javascript">
+        /*var count = 5;
+        var flg = setInterval(less,1000);
+        function less(){
+            var h1 = document.getElementById("timer");
+            h1.innerHTML=count;
+            if(count == 0){
+                clearInterval(flg);
+                //window.location.href='http://www.baidu.com';
+            }
+            count--;
+            
+        }*/
+        function toDouble(n){
+            if(n<10){
+                return "0"+n;
+            }else{
+                return ""+n;
+            }
+        }
+        function tick(){
+            var oDate = new Date();
+            var aImg = document.getElementsByTagName("img");
+            var str = toDouble(oDate.getHours())+toDouble(oDate.getMinutes())+toDouble(oDate.getSeconds());
+            for (var i = 0; i < aImg.length; i++) {
+                if(str[i]){
+                    aImg[i].src = "../images/"+str[i]+".png";
+                }else{
+                    aImg[i].src = "../images/"+str.charAt(i)+".png";
+                }
+                
+            };
+        }
+        
+        window.onload=function(){
+            //时钟
+            tick();
+            setInterval(tick,1000);
+
+            //延时提示框
+            var oDiv1 = document.getElementById("div1");
+            var oDiv2 = document.getElementById("div2");
+            var timer;
+            var speed = 2;
+
+            oDiv1.onmouseover=oDiv2.onmouseover=function(){
+                clearInterval(timer);
+                oDiv2.style.display="block";
+            }
+            oDiv1.onmouseout=oDiv2.onmouseout=function(){
+                timer = setTimeout(function(){
+                    oDiv2.style.display="none";
+                },500);
+            }
+        }
+
+    </script>
+    <style type="text/css">
+        div{float: left;margin-left: 10px}
+        #div1{width:60px;height:60px;background:red;}
+        #div2{width:200px;height:200px;background:blue;display:none;}
+        .clock{width:900px;height:200px;margin:100px auto;position:relative;}
+    </style>
+    </head>
+    <body style="background:#000;font-size:100px;color:#fff">
+        <div class="clock">
+            <img src="../images/0.png">
+            <img src="../images/0.png">
+            :
+            <img src="../images/0.png">
+            <img src="../images/0.png">
+            :
+            <img src="../images/0.png">
+            <img src="../images/0.png">
+        </div>
+            <br/>
+            <div id="div1"></div>
+            <div id="div2"></div>
+        
+    </body>
+</html>

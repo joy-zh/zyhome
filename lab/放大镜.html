@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+	*{margin:0;padding:0;}
+	#div1{width:180px;height:180px;position:absolute;overflow:hidden;top:100px;left:100px}
+	#div1 span{width:100px;height:100px;background:yellow;opacity:0.5;filter:alpha(opacity:50);
+	position: absolute;left:0;top:0;display:none}
+	
+	#div2{width:400px;height:400px;position:relative;top:100px;left:300px;overflow: hidden;display:none;}
+	#div2>img{position:absolute;top:0;left:0}
+	</style>
+	<script>
+		window.onload = function(){
+			var oDiv = document.getElementById("div1");
+			var oSpan = document.getElementById("span1");
+			
+			var oBig = document.getElementById("div2");
+			var oImg = oBig.getElementsByTagName("img")[0];
+			
+			oDiv.onmouseenter = function(){
+				oSpan.style.display = "block";
+				oBig.style.display = "block";
+			}
+			oDiv.onmouseleave = function(){
+				oSpan.style.display = "none";
+				oBig.style.display = "none";
+			}
+			
+			oDiv.onmousemove = function(ev){
+				var oEvent = ev || event;
+				
+				var l = oEvent.clientX-oDiv.offsetLeft-(oSpan.offsetWidth/2);
+				var t = oEvent.clientY-oDiv.offsetTop-(oSpan.offsetHeight/2);
+				
+				if(l<0){
+					l = 0;
+				}else if( l>oDiv.offsetWidth-oSpan.offsetWidth ){
+					l=oDiv.offsetWidth-oSpan.offsetWidth;
+				}
+				if(t<0){
+					t=0;
+				}else if( t>oDiv.offsetHeight-oSpan.offsetHeight ){
+					t=oDiv.offsetHeight-oSpan.offsetHeight;
+				}
+				
+				
+				oSpan.style.left = l + "px";
+				oSpan.style.top = t + "px";
+				
+				var scaleX = l/(oDiv.offsetWidth-oSpan.offsetWidth);
+				var scaleY = t/(oDiv.offsetHeight-oSpan.offsetHeight);
+
+				oImg.style.left = -(oImg.offsetWidth-oBig.offsetWidth)*scaleX + "px";
+				oImg.style.top = -(oImg.offsetHeight-oBig.offsetHeight)*scaleY + "px";
+				
+			}
+		}
+	</script>
+	<body>
+		<div id="div1">
+			<img src="../img/b2.jpg" />
+			<span id="span1"></span>
+		</div>
+		
+		<div id="div2">
+			<img src="../img/b1.jpg	" alt="" />
+		</div>
+	</body>
+</html>

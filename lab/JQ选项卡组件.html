@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
+	<style>
+		.content{width:200px;height:200px;border:1px solid #ccc;}
+		#div1>div:nth-of-type(2){display:none;}
+		#div1>div:nth-of-type(3){display:none;}
+		#div2>div:nth-of-type(2){display:none;}
+		#div2>div:nth-of-type(3){display:none;}
+		#div3>div:nth-of-type(2){display:none;}
+		#div3>div:nth-of-type(3){display:none;}
+		#div4>div:nth-of-type(2){display:none;}
+		#div4>div:nth-of-type(3){display:none;}
+		.active{background: red;}
+	</style>
+	<script>
+		//基于jquery选项卡组件
+		//options : event  delay
+		//method : nwoSel()  getContent()
+		
+		$(function(){
+			var t1 = new Tab();
+			t1.init("div1",{
+				event : "click"
+			})
+			
+			var t2 = new Tab();
+			t2.init("div2",{
+				event : "mouseover",
+				delay : 300
+			})
+			
+			var t3 = new Tab();
+			t3.init("div3",{})
+			t3.nowSel(2);
+			
+			var t4 = new Tab();
+			t4.init("div4",{
+				
+			})
+			
+			$("#input1").click(function(){
+				alert(t3.getContent());
+			});
+			
+			$(t4).on("beforeClick",function(){
+				alert( t4.getContent() );
+			})
+			$(t4).on("afterClick",function(){
+				alert( t4.getContent() );
+			})
+		})
+		
+		function Tab(){
+			this.oParent = null;
+			this.aDiv = null;
+			this.aInput = null;
+			this.iNow = 0;
+			
+			this.settings = {
+				event : "click",
+				delay : 0
+			}
+		}
+		
+		Tab.prototype.init = function( oParent,opt ){
+			$.extend( this.settings, opt );
+			
+			this.oParent = $("#"+oParent);
+			this.aInput = this.oParent.find("input");
+			this.aDiv = this.oParent.find("div");
+			
+			this.change();
+		}
+		
+		Tab.prototype.change = function(){
+			var This = this;
+			var timer = null;
+			
+			this.aInput.on(this.settings.event,function(){
+				var _this = this;
+				
+				if( This.settings.event == "mouseover" && This.settings.delay ){
+					timer = setTimeout(function(){
+						show(_this);
+					},This.settings.delay)
+				}else{
+					show(this);
+				}
+				
+			}).mouseout(function(){
+				clearTimeout(timer);
+			})
+			
+			function show(obj){
+				$(This).trigger("beforeClick");
+				
+				This.aInput.removeClass("active");
+				This.aDiv.css("display","none");
+				
+				$(obj).addClass("active");
+				This.aDiv.eq( $(obj).index() ).css("display","block");
+				
+				This.iNow = $(obj).index();
+				$(This).trigger("afterClick");
+			}
+		}
+		
+		Tab.prototype.nowSel = function(index){
+			this.aInput.removeClass("active");
+			this.aDiv.css("display","none");
+
+			this.aInput.eq(index).addClass("active");
+			this.aDiv.eq(index).css("display","block");
+			
+			this.iNow = index;
+
+		}
+		
+		Tab.prototype.getContent = function(){
+			return this.aDiv.eq(this.iNow).html();
+		}
+	</script>
+	<body>
+		<div id="div1">
+			<input type="button" value="1" class="active" />
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+			<br /><br />
+			<div class="content" id="c1">111</div>
+			<div class="content" id="c2">222</div>
+			<div class="content" id="c3">333</div>
+		</div>
+		
+		<div id="div2">
+			<input type="button" value="1" class="active" />
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+			<br /><br />
+			<div class="content" id="c1">111</div>
+			<div class="content" id="c2">222</div>
+			<div class="content" id="c3">333</div>
+		</div>
+		<div id="div3">
+			<input type="button" value="1" class="active" />
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+			<br /><br />
+			<div class="content" id="c1">111</div>
+			<div class="content" id="c2">222</div>
+			<div class="content" id="c3">333</div>
+		</div>
+		<div id="div4">
+			<input type="button" value="1" class="active" />
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+			<br /><br />
+			<div class="content" id="c1">111</div>
+			<div class="content" id="c2">222</div>
+			<div class="content" id="c3">333</div>
+		</div>
+		<input type="button" id="input1" value="点击" />
+	</body>
+</html>

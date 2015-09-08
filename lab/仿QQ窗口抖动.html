@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8"/>
+    <title>弹窗效果样式</title>
+    <script type="text/javascript" src="move.js"></script>
+    <style type="text/css">
+        img{position:absolute;top:100px;left:100px;}
+    </style>
+    <script>
+        window.onload = function(){
+            var oImg = document.getElementById("img");
+
+            oImg.onclick = function(){
+                shake(oImg,5,3);
+            }          
+        }
+
+        function shake(oDiv,range,time){
+            var num = 0;
+            var count = 1;
+            var arr = [{top:(-range),left:0},{top:0,left:range},{top:range,left:0},{top:0,left:(-range)},{top:(-range),left:0}];
+            var left = getStyle(oDiv,"left").replace(/px/,"");
+            var top = getStyle(oDiv,"top").replace(/px/,"");
+
+            clearInterval(oDiv.timer);
+            oDiv.timer = setInterval(function(){
+                oDiv.style.left = parseInt(left) + parseInt(arr[num].left) + "px";
+                oDiv.style.top = parseInt(top) + parseInt(arr[num].top) + "px";
+                num++;
+
+                if(num == arr.length && count == time){
+                    clearInterval(oDiv.timer);
+                    oDiv.style.left = left + "px";
+                    oDiv.style.top = top + "px";
+
+                    num = 0;
+                }
+                if(num == arr.length){
+                    count++;
+                    num = 0;
+                }
+            },30);
+        }
+    </script>
+    </head>
+    <body>
+        <img src="../images/gundong3.jpg" id="img"/>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+@charset "utf-8";
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;list-style:none;}
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%;}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:normal;}
+del,ins,u,s,a,a:hover{text-decoration:none;font-family: "微软雅黑"}
+body,textarea,input,button,select,keygen,legend{font:12px/1.14 arial,simsun;color:#333;outline:0;}
+body{background:#fff;}
+a,a:hover{color:#333;text-decoration:none;}
+.left{float:left;}
+.right{float:right;}
+.clear{clear:both;line-height:0px;height:0px;font-size:0px}
+.center{margin:0 auto;}
+
+.load_before{height:100%;width:100%;position:relative;overflow-x:hidden;alpha(opacity:1);opacity:1;z-index:950;background:white}
+.xie_line{height:1px;width:110%;background:#999;position:absolute;margin:300px 0 0 -60px;transform:rotate(-10deg);z-index: 999}
+.center_circle{height:40px;width:40px;border-radius:20px;border:1px solid #999;margin:-20px auto;position:relative;background:white;}
+.c_c_topc{height:8px;width:8px;position:absolute;top:-4px;left:50%;border-radius:4px;background:#666;}
+
+#hd_left{position:absolute;height:100%;background:#fff;left:0;z-index:1000}
+#hd_right{position:absolute;height:100%;background:#fff;;right:0;z-index:1000}
+
+#all_bg{position: fixed;top:0;left:0;width:100%;height:100%;background:url(../../images/bg.jpg);z-index:901}
+
+.nav_body{position:fixed;width:100%;border-top:2px solid orange;background: #fff;z-index:910;top:0;box-shadow:0 0 2px black;}
+.grid-row{width:1200px;margin:0 auto;position:relative;}
+.nav{float:left;}
+.nav li{float:left;}
+.nav li a{display: block;line-height:48px;text-align: center;float:left;padding:0 15px;font-size: 16px;color:#333;}
+.nav li a.cur{color:orange;}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+	#div1{width:100px;height:100px;position:absolute;background: red;top:0;left:0}
+	#div2{width:100px;height:100px;position:absolute;background: blue;top:0;left:100px}
+	</style>
+	<script>
+		window.onload = function(){
+			var d1 = new Drag();
+			d1.init("div1",{
+				toDown : function(){
+					document.title = "妙味";
+				},
+				toUp : function(){
+					document.title = "课堂";
+				}
+			});
+			
+			var d2 = new Drag();
+			d2.init("div2",{
+				toDown : function(){
+					document.title = "hello";
+				},
+				toUp : function(){
+					document.title = "world";
+				}
+			});
+		}
+		
+		function Drag(id){
+			this.obj = null;
+			this.disX = 0;
+			this.disY = 0;
+			
+			this.settings = {
+				toDown : function(){},
+				toUp : function(){}
+			};
+		}
+		
+		Drag.prototype.init = function(id,opt){
+			
+			this.obj = document.getElementById(id);
+			
+			extend( this.settings,opt );
+			var This = this;
+			this.obj.onmousedown = function(ev){
+				var oEvent = ev || window.event;
+				This.fnDown(oEvent);
+				This.settings.toDown();
+			}
+		}
+		
+		Drag.prototype.fnDown = function(oEvent){
+			var This = this;
+			
+			this.disX = oEvent.clientX - this.obj.offsetLeft;
+			this.disY = oEvent.clientY - this.obj.offsetTop;
+			
+			document.onmousemove = function(ev){
+				var oEvent = ev || window.event;
+				This.fnMove(oEvent);
+				return false;
+			}
+		}
+		
+		Drag.prototype.fnMove = function(oEvent){
+			var This = this;
+			
+			var l = oEvent.clientX - this.disX;
+			var t = oEvent.clientY - this.disY;
+
+			this.obj.style.left = l + "px";
+			this.obj.style.top = t + "px";
+			
+			document.onmouseup = function(){
+				This.fnUp();
+				This.settings.toUp();
+			}
+		}
+		
+		Drag.prototype.fnUp = function(){
+			document.onmousemove = null;
+			document.onmouseup = null;
+		}
+		
+		function extend(obj1,obj2)
+		{
+		    for(var attr in obj2){
+		        obj1[attr] = obj2[attr];
+		    }
+		}
+		
+	</script>
+	<body>
+		<div id="div1"></div>
+		<div id="div2"></div>
+	</body>
+</html>

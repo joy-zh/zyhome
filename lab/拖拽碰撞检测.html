@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		html body ul li{margin:0;padding:0;}
+		#div1{width:100px;height:100px;position:absolute;top:20px;left:20px;background:red;}
+		img{position:absolute;top:200px;left:500px;}
+	</style>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oDiv = document.getElementById("div1");
+			var oImg = document.getElementById("img");
+
+			var disX = 0;
+			var disY = 0;
+			oDiv.onmousedown = function(ev)
+			{
+				var oEvent = ev || event;
+				disX = oEvent.clientX-oDiv.offsetLeft;
+				disY = oEvent.clientY-oDiv.offsetTop;
+				//console.log(disX+","+disY);
+
+				document.onmousemove = function(ev)
+				{
+					var oEvent = ev || event;
+					var l = oEvent.clientX-disX;
+					var t = oEvent.clientY-disY;
+
+					var l1 = l;
+					var r1 = l+oDiv.offsetWidth;
+					var t1 = t;
+					var b1 = t+oDiv.offsetHeight;
+					//console.log(r1);
+					var l2 = oImg.offsetLeft;
+					var r2 = oImg.offsetLeft+oImg.offsetWidth;
+					var t2 = oImg.offsetTop;
+					var b2 = oImg.offsetTop+oImg.offsetHeight;
+					//console.log(l2);
+
+					if( r1 < l2 || b1 < t2 || l1 > r2 || t1 > b2){
+						oImg.src="../images/gundong1.jpg";
+					}else{
+						oImg.src="../images/gundong2.jpg";
+					}
+
+					if(l<0)
+					{
+						l=0;
+					}
+					if( l> (document.documentElement.clientWidth||document.body.clientWidth)-oDiv.offsetWidth )
+					{
+						l = (document.documentElement.clientWidth||document.body.clientWidth)-oDiv.offsetWidth;
+					}
+					if(t<0)
+					{
+						t=0;
+					}
+					if( t> (document.documentElement.clientHeight||document.body.clientHeight)-oDiv.offsetHeight )
+					{
+						t = (document.documentElement.clientHeight||document.body.clientHeight)-oDiv.offsetHeight;
+					}
+
+					oDiv.style.left = l+"px";
+					oDiv.style.top = t+"px";
+
+					if(oDiv.setCapture){
+						oDiv.setCapture();
+					}
+
+					return false;
+				}
+
+				document.onmouseup = function()
+				{
+					document.onmousemove = null;
+					document.onmouseup = null;
+
+					if(oDiv.releaseCapture){
+						oDiv.releaseCapture();
+					}
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+		<div id="div1"></div>
+		<img src="../images/gundong1.jpg" id="img"/>
+</body>
+</html>

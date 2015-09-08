@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+	*{margin:0;padding:0;}
+	#div1{position:absolute;overflow:hidden;bottom:0;left:0;right:0;width:100%;
+	margin-left:auto;margin-right:auto;text-align: center;vertical-align:bottom;padding-top:30px;}
+	#div1 img{width:64px;height:64px;margin-right:15px;}
+	</style>
+	<script>
+		window.onload = function(){
+			var oDiv = document.getElementById("div1");
+			var aInput = document.getElementsByTagName("input");
+			var aImg = oDiv.getElementsByTagName("img");
+			
+			for (var i=0;i<aImg.length;i++) {
+				aInput[i].value = "X轴："+(aImg[i].offsetLeft + aImg[i].offsetWidth/2)+
+				" Y轴："+(aImg[i].offsetHeight/2 + oDiv.offsetTop);
+			}
+			//document.onmousemove = function(){
+				oDiv.onmousemove = function(ev){
+					var ev = ev || window.event;
+					
+					for (var i=0;i<aImg.length;i++) {
+						var x = aImg[i].offsetLeft + aImg[i].offsetWidth/2;
+						var y = aImg[i].offsetTop+aImg[i].offsetHeight/2 + oDiv.offsetTop;
+						
+						var a = ev.clientX - x;
+						var b = ev.clientY - y;
+						
+						var c = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
+						
+						aInput[i].value = c;
+						
+						var scole = 1 - c/300;
+						if(scole<0.5){
+							scole = 0.5;
+						}
+						
+						aImg[i].style.width = 128*scole + "px";
+						aImg[i].style.height = 128*scole + "px";
+					}
+				}
+				oDiv.onmouseleave = function(){
+					for (var i=0;i<aImg.length;i++) {
+						aImg[i].style.width = "64px";
+						aImg[i].style.height = "64px";
+					}
+				}
+			//}
+		}
+	</script>
+	<body>
+		<input type="text" />
+		<input type="text" />
+		<input type="text" />
+		<input type="text" />
+		<input type="text" />
+		
+		<div id="div1">
+			<img src="../img/1.png" />
+			<img src="../img/2.png" />
+			<img src="../img/3.png" />
+			<img src="../img/4.png" />
+			<img src="../img/5.png" />
+		</div>
+	</body>
+</html>

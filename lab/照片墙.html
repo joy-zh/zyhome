@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+	*{margin:0;padding:0;}
+	#list{list-style:none;width:650px;margin:30px auto;position:relative;}
+	#list li{display:inline-block;margin-left:10px;margin-top:15px;}
+	img{vertical-align: bottom;}
+	.active{border: 2px solid #FF0000;}
+	</style>
+	
+	<script src="move.js"></script>
+	<script>
+		window.onload = function(){
+			var aLi = document.getElementsByTagName("li");
+			
+			var arr = [];
+			var zIndex = 2;
+			
+			for (var i=0;i<aLi.length;i++) {
+				arr.push( [aLi[i].offsetLeft , aLi[i].offsetTop] );
+			}
+			
+			for (var i=0;i<aLi.length;i++) {
+				aLi[i].style.position = "absolute";
+				aLi[i].style.left = arr[i][0] +"px";
+				aLi[i].style.top = arr[i][1] +"px";
+				aLi[i].style.margin = 0;
+				aLi[i].style.padding = 0;
+			}
+			
+			for (var i=0;i<aLi.length;i++) {
+				aLi[i].index = i;
+				drag( aLi[i] );
+			}
+			
+			function drag(obj){
+				
+				obj.onmousedown = function(ev){
+					var oEvent = ev || window.event;
+					var disX = oEvent.clientX - obj.offsetLeft;
+					var disY = oEvent.clientY - obj.offsetTop;
+					
+					obj.style.zIndex = zIndex;
+					zIndex++;
+					
+					document.onmousemove = function(ev){
+						var oEvent = ev || window.event;
+						
+						obj.style.left = oEvent.clientX - disX +"px";
+						obj.style.top = oEvent.clientY - disY +"px";
+						
+						for (var i=0;i<aLi.length;i++) {
+							aLi[i].className="";
+						}
+						
+						var nL = nearLi(obj);
+						if(nL){
+							nL.className = "active";
+						}
+					}
+					
+					document.onmouseup = function(){
+						document.onmousemove = null;
+						document.onmouseup = null;
+						
+						var nL = nearLi(obj);
+						
+						if(nL){
+							startMove(nL,{ left : arr[obj.index][0], top : arr[obj.index][1] },7);
+							startMove(obj,{ left : arr[nL.index][0], top : arr[nL.index][1] },7);
+							nL.className="";
+							
+							var temp = 0;
+							temp = obj.index;
+							obj.index = nL.index;
+							nL.index = temp;
+						}else{
+							startMove(obj,{ left : arr[obj.index][0], top : arr[obj.index][1] },7);
+						}
+					}
+					
+					return false;
+				}
+				
+			}
+			
+			function nearLi(obj){
+				var count = 999;
+				var index = -1;
+				
+				for (var i=0;i<aLi.length;i++) {
+					if( pz(obj,aLi[i]) && obj != aLi[i] ){
+	
+						var c = xiebian(obj,aLi[i]);
+						
+						if( c < count ){
+							count = c;
+							index = i;
+						}
+					}else{
+						
+					}
+				}
+				
+				if( index != -1){
+					return aLi[index];
+				}else{
+					return false;
+				}
+				
+			}
+			
+			var oInput = document.getElementById("rand");
+			oInput.onclick = function(){
+				var randomArr = [0,1,2,3,4,5,6,7,8];
+				
+				randomArr.sort(function(){
+					return Math.random() - 0.5;
+				});
+				
+				for (var i=0;i<aLi.length;i++) {
+					startMove(aLi[i],{ left : arr[randomArr[i]][0], top : arr[randomArr[i]][1] },7);
+					aLi[i].index = randomArr[i];
+				}
+			}
+			
+		}
+		
+		//勾股定理 求斜边
+		function xiebian(obj1,obj2){
+			var a = obj1.offsetLeft - obj2.offsetLeft;
+			var b = obj1.offsetTop - obj2.offsetTop;
+			
+			return Math.sqrt(a*a + b*b);
+		}
+		
+		function pz(obj1,obj2){
+			var L1 = obj1.offsetLeft;
+			var R1 = obj1.offsetLeft + obj1.offsetWidth;
+			var T1 = obj1.offsetTop;
+			var B1 = obj1.offsetTop + obj1.offsetHeight;
+			
+			var L2 = obj2.offsetLeft;
+			var R2= obj2.offsetLeft + obj2.offsetWidth;
+			var T2 = obj2.offsetTop;
+			var B2 = obj2.offsetTop + obj2.offsetHeight;
+			
+			if( R1<L2 || L1 > R2 || B1<T2 || T1>B2 ){
+				return false;
+			}else{
+				return true;
+			}
+		}
+	</script>
+	
+	<body>
+		<input value="随机" id="rand" type="button" />
+		<div style="width:300px;margin:20px auto;color:red;font-size:24px;">可拖拽哦</div>
+		<ul id="list">
+			<li><img src="../img/1.jpg" /></li>
+			<li><img src="../img/2.jpg" /></li>
+			<li><img src="../img/3.jpg" /></li>
+			<li><img src="../img/4.jpg" /></li>
+			<li><img src="../img/5.jpg" /></li>
+			<li><img src="../img/4.jpg" /></li>
+			<li><img src="../img/3.jpg" /></li>
+			<li><img src="../img/2.jpg" /></li>
+			<li><img src="../img/1.jpg" /></li>
+		</ul>
+	</body>
+</html>
